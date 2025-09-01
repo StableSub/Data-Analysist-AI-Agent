@@ -11,7 +11,7 @@ DATA_DIR = BASE_DIR / "data"
 UPLOAD_DIR = DATA_DIR / "uploads"
 META_DIR = DATA_DIR / "meta"
 
-# 실제 디렉토리를 생성. parents=True : parents가 없으면(여기선 data 폴더가 없으면) 자동으로 생성. exist_ok : 이미 존재해도 넘어감.
+# 실제 디렉토리를 생성. parents=True : parents가 t없으면(여기선 data 폴더가 없으면) 자동으로 생성. exist_ok : 이미 존재해도 넘어감.
 for d in (UPLOAD_DIR, META_DIR):
     d.mkdir(parents=True, exist_ok=True)
 
@@ -100,7 +100,7 @@ def sample_load(raw_path: Path, sniff_info: dict, sample_rows: int = 5000):
         try: # 총 행수를 count_rows_csv로 계산. 실패 시 fallback으로 샘플 크기 사용.
             total_rows = count_rows_csv(raw_path, enc, sep)
         except Exception:
-            total_rwos = len(df)
+            total_rows = len(df)
         shape_total = (total_rows, len(df.columns)) # 전체 (행, 얄) shape와 함께 DataFrame 샘플 반환.
         return df, {"shape_total": shape_total}
     else:

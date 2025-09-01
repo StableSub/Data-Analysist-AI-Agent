@@ -481,6 +481,20 @@ async def run_agent(user_input: str, conversation_history: List[Dict[str, Any]] 
                 except Exception as e:
                     print(f"Warning: Failed to get profile summary: {e}")
                 
+                # 업로드된 파일 정보가 있으면 시스템 메시지로 추가
+                if global_state.get("meta"):
+                    file_info = global_state["meta"]
+                    messages.append({
+                        "role": "system",
+                        "content": f"""현재 업로드된 파일 정보:
+                                    - 파일명: {file_info.get('raw_path', '').split('/')[-1] if file_info.get('raw_path') else '알 수 없음'}
+                                    - 형식: {file_info.get('ext', '알 수 없음')}
+                                    - 컬럼: {', '.join(file_info.get('columns', []))}
+                                    - 전체 데이터 크기: {file_info.get('shape_total', '알 수 없음')}
+
+                                    사용자가 파일에 대해 질문하면 doc_search 도구를 사용하여 파일 내용을 검색하고 분석해주세요."""
+                    })
+
                 # 이전 대화가 있으면 추가 (최근 5개만, 토큰 절약)
                 if conversation_history:
                     messages.append({
