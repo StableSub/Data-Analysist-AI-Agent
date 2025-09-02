@@ -1,3 +1,12 @@
+"""MCP 서버: 데이터 분석 도구 제공
+
+이 서버는 다음과 같은 도구를 제공합니다.
+- get_conversation_history: 최근 대화 기록을 조회
+- plot: 업로드된 데이터셋으로 기본 차트를 생성하고 이미지 파일 경로 반환
+
+LangGraph 에이전트는 표준 입출력(stdio)로 이 서버와 통신합니다.
+"""
+
 import os
 import sys
 import time
@@ -16,8 +25,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp.prompts import base
-from conversation_memory import get_memory
-from data_processing import read_meta, get_latest_uploaded_file
+from core.memory import get_memory
+from core.data_processing.meta import read_meta, get_latest_uploaded_file
 
 mcp = FastMCP("DataAnalysis")
 
